@@ -19,14 +19,6 @@ public class Solution {
             Movie movie = MovieFactory.getMovie(key);
             if (correctWord) System.out.println(movie.getClass().getSimpleName());
         } while (correctWord);
-        //ввести с консоли несколько ключей (строк), пункт 7
-
-        /*
-        8 Создать переменную movie класса Movie и для каждой введенной строки(ключа):
-        8.1 получить объект используя MovieFactory.getMovie и присвоить его переменной movie
-        8.2 вывести на экран movie.getClass().getSimpleName()
-        */
-
     }
 
     static class MovieFactory {
