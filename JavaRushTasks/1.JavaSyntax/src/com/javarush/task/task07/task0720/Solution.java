@@ -12,12 +12,22 @@ import java.util.ArrayList;
 public class Solution {
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
         int N = Integer.parseInt(reader.readLine());
         int M = Integer.parseInt(reader.readLine());
-        ArrayList<String> list = new ArrayList<>();
-        for (int i = 0; i < N; i++) {
 
+        ArrayList<String> list = new ArrayList<>();
+
+        for (int i = 0; i < N; i++) {
+            list.add(reader.readLine());
+        }
+
+        for (int i = 0; i < M; i++) {
+            list.add(list.get(0));
+            list.remove(0);
+        }
+
+        for (String s: list) {
+            System.out.println(s);
         }
     }
 }
