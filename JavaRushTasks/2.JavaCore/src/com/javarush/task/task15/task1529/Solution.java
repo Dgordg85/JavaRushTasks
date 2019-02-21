@@ -21,12 +21,8 @@ public class Solution {
         Scanner sc = new Scanner(System.in);
         String str = sc.nextLine();
 
-        if (str.equals("helicopter")){
-            result = new Helicopter();
-        } else if (str.equals("plane")){
-            int passengers = Integer.parseInt(sc.nextLine());
-            result = new Plane(passengers);
-        }
+        if (str.equals("helicopter"))result = new Helicopter();
+         else if (str.equals("plane"))result = new Plane(Integer.parseInt(sc.nextLine()));
         sc.close();
     }
 }
