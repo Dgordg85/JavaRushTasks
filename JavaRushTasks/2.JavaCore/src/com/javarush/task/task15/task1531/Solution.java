@@ -22,7 +22,6 @@ public class Solution {
     public static String factorial(int n) {
         if (n < 0) return "0";
         if (n == 0) return "1";
-        String fract = "";
         BigDecimal fact = new BigDecimal(1);
         for (int i = 1; i <= n; i++) {
             fact = fact.multiply(new BigDecimal(i));
