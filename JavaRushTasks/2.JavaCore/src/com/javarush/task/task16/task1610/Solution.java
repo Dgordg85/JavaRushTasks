@@ -13,7 +13,7 @@ public class Solution {
     }
 
     private static void investigateWorld() throws InterruptedException {
-        Thread.sleep(200);
+       Thread.sleep(200);
     }
 
     public static class Cat extends Thread {
