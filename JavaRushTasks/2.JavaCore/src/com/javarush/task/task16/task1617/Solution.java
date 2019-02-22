@@ -25,8 +25,8 @@ public class Solution {
                 try {
                     if (numSeconds == 0) System.out.print(" Марш!");
                     System.out.print(" " + numSeconds);
-                    sleep(1000);
                     numSeconds--;
+                    sleep(1000);
                 } catch (InterruptedException e) {
                     System.out.print(" Прервано!");
                 }
