@@ -4,8 +4,6 @@ package com.javarush.task.task16.task1610;
 Расставь вызовы методов join()
 */
 
-import com.sun.deploy.security.WIExplorerBrowserAuthenticator14;
-
 public class Solution {
     public static void main(String[] args) throws InterruptedException {
         Cat cat1 = new Cat("Мурка");
