@@ -20,15 +20,17 @@ public class Solution {
             start();
         }
 
-        public void run() {
+        public void run(){
             while(!isInterrupted()){
                 try {
                     if (numSeconds == 0) System.out.print(" Марш!");
+
                     System.out.print(" " + numSeconds);
                     numSeconds--;
                     sleep(1000);
                 } catch (InterruptedException e) {
                     System.out.print(" Прервано!");
+                    interrupt();
                 }
             }
         }
