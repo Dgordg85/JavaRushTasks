@@ -4,8 +4,6 @@ package com.javarush.task.task16.task1617;
 Отсчет на гонках
 */
 
-import java.util.Date;
-
 public class Solution {
     public static volatile int numSeconds = 3;
 
@@ -23,11 +21,13 @@ public class Solution {
         public void run(){
             while(!isInterrupted()){
                 try {
-                    if (numSeconds == 0) System.out.print(" Марш!");
-
+                    if (numSeconds == 0) {
+                        System.out.print(" Марш!");
+                        return;
+                    }
                     System.out.print(" " + numSeconds);
-                    numSeconds--;
                     sleep(1000);
+                    numSeconds--;
                 } catch (InterruptedException e) {
                     System.out.print(" Прервано!");
                     interrupt();
