@@ -11,11 +11,30 @@ public class Solution {
         Read3Strings t1 = new Read3Strings();
         Read3Strings t2 = new Read3Strings();
 
-        //add your code here - добавьте код тут
+        t1.start();
+        t2.start();
 
         t1.printResult();
         t2.printResult();
     }
 
-    //add your code here - добавьте код тут
+    public static class Read3Strings extends Thread{
+
+        public String str = "";
+
+        @Override
+        public void run() {
+
+            for (int i = 0; i < 3; i++) {
+                try {
+                    if (reader.ready()) str += Solution.reader.readLine() + " ";
+                } catch (IOException e) {
+                }
+            }
+        }
+
+        public void printResult(){
+            System.out.println(this.str);
+        }
+    }
 }
