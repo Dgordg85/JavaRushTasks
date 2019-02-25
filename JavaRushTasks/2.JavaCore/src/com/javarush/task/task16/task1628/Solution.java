@@ -38,10 +38,19 @@ public class Solution {
     }
 
     public static class ReaderThread extends Thread {
-        private List<String> result = new ArrayList<String>();
+        private List<String> result = new ArrayList<>();
 
         public void run() {
-            //add your code here - добавьте код тут
+            while (!isInterrupted()){
+                try {
+                    if (reader.ready()) {
+                        result.add(reader.readLine());
+                        Solution.readStringCount.incrementAndGet();
+                    }
+                } catch (Exception e) {
+                    return;
+                }
+            }
         }
 
         @Override
