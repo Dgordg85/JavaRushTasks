@@ -12,29 +12,33 @@ public class Solution {
         Read3Strings t2 = new Read3Strings();
 
         t1.start();
+        t1.join();
+
         t2.start();
+        t2.join();
 
         t1.printResult();
         t2.printResult();
     }
 
     public static class Read3Strings extends Thread{
-
-        public String str = "";
+        private String str = "";
+        private int count;
 
         @Override
         public void run() {
-
-            for (int i = 0; i < 3; i++) {
-                try {
-                    if (reader.ready()) str += Solution.reader.readLine() + " ";
-                } catch (IOException e) {
+            try {
+                while (!isInterrupted() && count < 3) {
+                    if (reader.ready()) {
+                        str += reader.readLine() + " ";
+                        count++;
+                    }
                 }
-            }
+            } catch (IOException e) {}
         }
 
         public void printResult(){
-            System.out.println(this.str);
+            System.out.println(str);
         }
     }
 }
