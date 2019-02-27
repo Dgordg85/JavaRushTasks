@@ -6,9 +6,7 @@ public class OurPresident {
 
     static {
         synchronized (OurPresident.class){
-            if (president == null){
-                president = new OurPresident();
-            }
+            president = new OurPresident();
         }
     }
 
