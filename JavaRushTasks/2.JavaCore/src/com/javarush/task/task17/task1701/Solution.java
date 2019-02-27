@@ -22,12 +22,8 @@ public class Solution {
         }
 
         public static void removeNote(String threadName) {
-            String note;
-            try {
-                note = notes.remove(0);
-            }catch (Exception e) {
-                note = null;
-            }
+            String note = notes.remove(0);
+
             if (note == null) {
                 System.out.println("Другая нить удалила нашу заметку");
             } else if (!note.startsWith(threadName)) {
@@ -44,7 +40,7 @@ public class Solution {
             for (int i = 0; i < 1000; i++) {
                 Note.addNote(getName() + "-Note" + i);
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
