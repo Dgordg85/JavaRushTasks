@@ -1,11 +1,9 @@
 package com.javarush.task.task16.task1632;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Solution {
     public static List<Thread> threads = new ArrayList<>(5);
@@ -50,12 +48,12 @@ public class Solution {
     public static class Except extends Thread{
         @Override
         public void run() {
-            try {
-                while(!isInterrupted()){
-                    Thread.sleep(500);
+            while(true){
+                try {
+                    Thread.sleep(1500);
+                }catch (InterruptedException e) {
+                    System.out.println("InterruptedException");
                 }
-            }catch (InterruptedException e){
-                System.out.println("InterruptedException");
             }
         }
     }
