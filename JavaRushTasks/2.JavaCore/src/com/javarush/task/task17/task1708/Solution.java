@@ -13,9 +13,9 @@ public class Solution {
 
     }
 
-    public static class Note {
+    public static class Note extends Thread{
 
-        public List<String> notes = new ArrayList<String>();
+        public volatile List<String> notes = new ArrayList<>();
 
         public void addNote(int index, String note) {
             System.out.println("Сейчас будет добавлена заметка [" + note + "] На позицию " + index);
