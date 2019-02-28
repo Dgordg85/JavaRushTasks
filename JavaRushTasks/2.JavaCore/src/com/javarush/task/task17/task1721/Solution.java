@@ -17,7 +17,7 @@ public class Solution {
 
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
-        
+
         allLines = Files.readAllLines(Paths.get(sc.nextLine()));
         forRemoveLines = Files.readAllLines(Paths.get(sc.nextLine()));
         sc.close();
