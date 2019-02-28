@@ -8,7 +8,7 @@ ApplicationContext
 */
 
 public abstract class ApplicationContext<GenericsBean extends Bean> {
-    private Map<String, GenericsBean> container = new HashMap<String, GenericsBean>();
+    private Map<String, GenericsBean> container = new HashMap<>();
     // Map<Name, some class that implements the Bean interface>
 
 
@@ -16,11 +16,11 @@ public abstract class ApplicationContext<GenericsBean extends Bean> {
         parseAllClassesAndInterfaces();
     }
 
-    public GenericsBean getByName(String name) {
+    public synchronized GenericsBean getByName(String name) {
           return container.get(name);
     }
 
-    public GenericsBean removeByName(String name) {
+    public synchronized GenericsBean removeByName(String name) {
         return container.remove(name);
     }
 
