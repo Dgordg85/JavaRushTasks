@@ -15,25 +15,14 @@ public class Solution {
     public static List<String> allLines = new ArrayList<>();
     public static List<String> forRemoveLines = new ArrayList<>();
 
-    public static void main(String[] args) throws CorruptedDataException {
-        readFile(allLines);
-        readFile(forRemoveLines);
-        new Solution().joinData();
-    }
-
-    private static void readFile(List<String> list){
+    public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
-        try {
-           list = Files.readAllLines(Paths.get(sc.nextLine()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        /*try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            BufferedReader fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(reader.readLine())));
+        
+        allLines = Files.readAllLines(Paths.get(sc.nextLine()));
+        forRemoveLines = Files.readAllLines(Paths.get(sc.nextLine()));
+        sc.close();
 
-            while (fileReader.ready()) list.add(fileReader.readLine());
-        } catch (IOException e){}*/
+        new Solution().joinData();
     }
 
     public void joinData() throws CorruptedDataException {
@@ -41,7 +30,6 @@ public class Solution {
             allLines.clear();
             throw new CorruptedDataException();
         } else {
-            //forRemoveLines.forEach((String str) -> allLines.remove(str));
             allLines.removeAll(forRemoveLines);
         }
 
