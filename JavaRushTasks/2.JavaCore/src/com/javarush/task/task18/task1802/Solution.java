@@ -1,6 +1,7 @@
 package com.javarush.task.task18.task1802;
 
 import java.io.FileInputStream;
+import java.util.Scanner;
 
 /* 
 Минимальный байт
@@ -8,5 +9,23 @@ import java.io.FileInputStream;
 
 public class Solution {
     public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        FileInputStream file = new FileInputStream(sc.nextLine());
+
+        int min = 256;
+        int currentByte;
+        while (file.available() > 0){
+            if ((currentByte = file.read()) < min) min = currentByte;
+            System.out.println(currentByte);
+        }
+        System.out.println(min);
+
+
+        Integer bite= 1053;
+        System.out.println(bite.byteValue());
+
+        file.close();
     }
+
+
 }
