@@ -16,16 +16,8 @@ public class Solution {
         int currentByte;
         while (file.available() > 0){
             if ((currentByte = file.read()) < min) min = currentByte;
-            System.out.println(currentByte);
         }
         System.out.println(min);
-
-
-        Integer bite= 1053;
-        System.out.println(bite.byteValue());
-
         file.close();
     }
-
-
 }
