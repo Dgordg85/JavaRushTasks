@@ -5,7 +5,6 @@ package com.javarush.task.task18.task1808;
 */
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
@@ -19,7 +18,7 @@ public class Solution {
         FileOutputStream three = new FileOutputStream(sc.nextLine());
 
         //середина файла
-        int separate = one.available() / 2;
+        int separate = one.available() / 2 + one.available() % 2;
 
         //смотрим сколько байт уже раскидано по файлам
         int countBytes = 0;
@@ -33,22 +32,23 @@ public class Solution {
         byte[] buffer = new byte[bufferSize];
 
         while (one.available() > 0){
-            System.out.println("Осталось=" + one.available());
 
-            one.read(buffer);
-            System.out.println("buffer=" + buffer.length);
+            int count = one.read(buffer);
+
             if (!endFirstFile)countBytes += bufferSize;
 
-            if (countBytes < separate){
+            if (countBytes <= separate){
                 two.write(buffer);
             } else {
                 if (!endFirstFile){
+                    //сколько символов в буфере лишнии и надо дозаписать в первый файл
                     int separateCount = separate % bufferSize;
                     two.write(buffer,0, separateCount);
+                    //остальное дозаписываем в третий и меняем флаг
                     three.write(buffer, separateCount, bufferSize - separateCount);
                     endFirstFile = true;
                 } else {
-                    three.write(buffer);
+                    three.write(buffer, 0 , count);
                 }
 
             }
