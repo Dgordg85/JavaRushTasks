@@ -18,5 +18,18 @@ public class Solution {
         FileOutputStream fileTwo = new FileOutputStream(sc.nextLine());
 
         byte[] buffer = new byte[fileOne.available()];
+
+        fileOne.read(buffer);
+
+        for (int i = 0; i < buffer.length / 2; i++) {
+            byte temp = buffer[i];
+            buffer[i] = buffer[buffer.length - 1 - i];
+            buffer[buffer.length - 1 - i] = temp;
+        }
+
+        fileTwo.write(buffer);
+
+        fileOne.close();
+        fileTwo.close();
     }
 }
