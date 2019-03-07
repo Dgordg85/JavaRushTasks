@@ -36,7 +36,9 @@ public class Solution {
 
         public DecoratorMyRunnableImpl(Runnable component) {
             this.component = component;
-        }@Override
+        }
+
+        @Override
         public void run() {
             System.out.print("DecoratorMyRunnableImpl body ");
             component.run();
