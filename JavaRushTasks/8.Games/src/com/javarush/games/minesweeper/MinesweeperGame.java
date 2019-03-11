@@ -8,7 +8,9 @@ import java.util.List;
 public class MinesweeperGame extends Game {
     private static final int SIDE = 9;
     private int countMinesOnField;
+    private int countFlags;
     private static final String MINE = "\uD83D\uDCA3";
+    private static final String FLAG = "\uD83D\uDEA9";
 
     private GameObject[][] gameField = new GameObject[SIDE][SIDE];
 
@@ -30,6 +32,7 @@ public class MinesweeperGame extends Game {
                 setCellColor(x, y, Color.AZURE);
             }
         }
+        countFlags = countMinesOnField;
         countMineNeighbors();
     }
 
