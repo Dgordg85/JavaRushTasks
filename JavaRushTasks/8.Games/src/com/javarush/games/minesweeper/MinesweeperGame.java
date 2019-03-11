@@ -12,6 +12,7 @@ public class MinesweeperGame extends Game {
     private static final String MINE = "\uD83D\uDCA3";
     private static final String FLAG = "\uD83D\uDEA9";
     private boolean isGameStopped;
+    private int countClosedTiles = SIDE * SIDE;
 
     private GameObject[][] gameField = new GameObject[SIDE][SIDE];
 
@@ -76,9 +77,11 @@ public class MinesweeperGame extends Game {
     }
 
     private void openTile(int x, int y){
+        if (countMinesOnField == countClosedTiles) win();
         if (!isGameStopped && !gameField[y][x].isFlag && !gameField[y][x].isOpen){
             if (!gameField[y][x].isMine) {
                 gameField[y][x].isOpen = true;
+                countClosedTiles--;
                 setCellColor(x, y, Color.GREEN);
                 if (gameField[y][x].countMineNeighbors == 0) {
                     setCellValue(x, y, "");
@@ -96,19 +99,17 @@ public class MinesweeperGame extends Game {
     }
 
     private void markTile(int x, int y){
-        if (!isGameStopped) {
-            if (!gameField[y][x].isOpen) {
-                if (!gameField[y][x].isFlag && countFlags > 0) {
-                    setCellValue(x, y, FLAG);
-                    setCellColor(x, y, Color.YELLOW);
-                    gameField[y][x].isFlag = true;
-                    countFlags--;
-                } else if (gameField[y][x].isFlag) {
-                    gameField[y][x].isFlag = false;
-                    countFlags++;
-                    setCellValue(x, y, "");
-                    setCellColor(x, y, Color.AZURE);
-                }
+        if (!gameField[y][x].isOpen && !isGameStopped) {
+            if (!gameField[y][x].isFlag && countFlags > 0) {
+                setCellValue(x, y, FLAG);
+                setCellColor(x, y, Color.YELLOW);
+                gameField[y][x].isFlag = true;
+                countFlags--;
+            } else if (gameField[y][x].isFlag) {
+                gameField[y][x].isFlag = false;
+                countFlags++;
+                setCellValue(x, y, "");
+                setCellColor(x, y, Color.AZURE);
             }
         }
     }
@@ -116,6 +117,12 @@ public class MinesweeperGame extends Game {
     private void gameOver(){
         isGameStopped = true;
         showMessageDialog(Color.RED, "Игра окончена", Color.ALICEBLUE, 25);
+    }
+
+    private void win(){
+        isGameStopped = true;
+        showMessageDialog(Color.GREEN, "Вы выиграли", Color.GRAY, 25);
+
     }
 
     @Override
