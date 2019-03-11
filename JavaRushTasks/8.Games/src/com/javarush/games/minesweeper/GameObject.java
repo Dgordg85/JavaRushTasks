@@ -4,6 +4,7 @@ public class GameObject {
     public int x, y;
     public int countMineNeighbors = 0;
     public boolean isMine;
+    public boolean isOpen;
 
     public GameObject(int x, int y, boolean isMine) {
         this.x = x;
