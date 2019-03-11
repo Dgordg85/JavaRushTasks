@@ -11,6 +11,7 @@ public class MinesweeperGame extends Game {
     private int countFlags;
     private static final String MINE = "\uD83D\uDCA3";
     private static final String FLAG = "\uD83D\uDEA9";
+    private boolean isGameStopped;
 
     private GameObject[][] gameField = new GameObject[SIDE][SIDE];
 
@@ -21,6 +22,7 @@ public class MinesweeperGame extends Game {
     }
 
     private void createGame(){
+        isGameStopped = false;
         for (int x = 0; x < SIDE; x++) {
             for (int y = 0; y < SIDE; y++) {
                 if (getRandomNumber(10) == 0) {
@@ -74,37 +76,48 @@ public class MinesweeperGame extends Game {
     }
 
     private void openTile(int x, int y){
-        if (!gameField[y][x].isOpen && !gameField[y][x].isMine) {
-            gameField[y][x].isOpen = true;
-
-            setCellColor(x, y, Color.GREEN);
-            if (gameField[y][x].countMineNeighbors == 0){
-                setCellValue(x, y, "");
-                for (GameObject obj : getNeighbors(gameField[y][x])){
-                    openTile(obj.x, obj.y);
+            if (!gameField[y][x].isOpen && !gameField[y][x].isMine) {
+                gameField[y][x].isOpen = true;
+                if (gameField[y][x].isFlag) {
+                    gameField[y][x].isFlag = false;
+                    countFlags++;
                 }
-            } else {
-                setCellNumber(x, y, gameField[y][x].countMineNeighbors);
+                setCellColor(x, y, Color.GREEN);
+                if (gameField[y][x].countMineNeighbors == 0) {
+                    setCellValue(x, y, "");
+                    for (GameObject obj : getNeighbors(gameField[y][x])) {
+                        openTile(obj.x, obj.y);
+                    }
+                } else {
+                    setCellNumber(x, y, gameField[y][x].countMineNeighbors);
+                }
+            } else if (gameField[y][x].isMine) {
+                setCellValueEx(x, y, Color.RED, MINE);
+                gameOver();
             }
-        } else if (gameField[y][x].isMine){
-            setCellValue(x, y, MINE);
-        }
     }
 
     private void markTile(int x, int y){
-        if (!gameField[y][x].isOpen){
-            if (!gameField[y][x].isFlag && countFlags > 0){
-                setCellValue(x, y, FLAG);
-                setCellColor(x, y, Color.YELLOW);
-                gameField[y][x].isFlag = true;
-                countFlags--;
-            } else if (gameField[y][x].isFlag){
-                gameField[y][x].isFlag = false;
-                countFlags++;
-                setCellValue(x, y, "");
-                setCellColor(x, y, Color.AZURE);
+        if (!isGameStopped) {
+            if (!gameField[y][x].isOpen) {
+                if (!gameField[y][x].isFlag && countFlags > 0) {
+                    setCellValue(x, y, FLAG);
+                    setCellColor(x, y, Color.YELLOW);
+                    gameField[y][x].isFlag = true;
+                    countFlags--;
+                } else if (gameField[y][x].isFlag) {
+                    gameField[y][x].isFlag = false;
+                    countFlags++;
+                    setCellValue(x, y, "");
+                    setCellColor(x, y, Color.AZURE);
+                }
             }
         }
+    }
+
+    private void gameOver(){
+        isGameStopped = true;
+        showMessageDialog(Color.RED, "Игра окончена", Color.ALICEBLUE, 25);
     }
 
     @Override
