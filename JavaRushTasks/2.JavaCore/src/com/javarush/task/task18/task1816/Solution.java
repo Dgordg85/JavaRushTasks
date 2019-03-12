@@ -15,7 +15,7 @@ public class Solution {
         int i;
         int countChar = 0;
         while ((i = reader.read()) != -1){
-            if (i > 64 && i < 91 || i > 96 && i < 123) countChar++;
+            if (i >= 65 && i <= 90 || i >= 97 && i <= 122) countChar++;
         }
         System.out.println(countChar);
         reader.close();
