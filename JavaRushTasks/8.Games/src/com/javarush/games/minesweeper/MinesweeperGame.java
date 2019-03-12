@@ -24,7 +24,6 @@ public class MinesweeperGame extends Game {
     }
 
     private void createGame(){
-        isGameStopped = false;
         for (int x = 0; x < SIDE; x++) {
             for (int y = 0; y < SIDE; y++) {
                 if (getRandomNumber(10) == 0) {
@@ -34,6 +33,7 @@ public class MinesweeperGame extends Game {
                     gameField[y][x] = new GameObject(x, y, false);
                 }
                 setCellColor(x, y, Color.AZURE);
+                setCellValue(x, y, "");
             }
         }
         countFlags = countMinesOnField;
@@ -131,9 +131,20 @@ public class MinesweeperGame extends Game {
 
     }
 
+    private void restart(){
+        isGameStopped = false;
+        countClosedTiles = SIDE * SIDE;
+        countMinesOnField = 0;
+        score = 0;
+        setScore(score);
+        createGame();
+
+    }
+
     @Override
     public void onMouseLeftClick(int x, int y) {
-        openTile(x, y);
+        if (isGameStopped) restart();
+        else openTile(x, y);
     }
 
     @Override
