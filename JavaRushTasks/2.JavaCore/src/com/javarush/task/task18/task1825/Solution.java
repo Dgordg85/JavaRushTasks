@@ -43,7 +43,7 @@ public class Solution {
                 while ((i = streamInBuf.read()) != -1) {
                     streamOutBuf.write(i);
                 }
-                streamIn.close();
+                streamInBuf.close();
             }
             streamOutBuf.close();
         }
