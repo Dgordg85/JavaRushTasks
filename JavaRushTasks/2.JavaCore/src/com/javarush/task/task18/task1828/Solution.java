@@ -74,7 +74,7 @@ public class Solution {
 
     private static void create() throws IOException {
         validArgs = true;
-        Products product = new Products(getMaxId() + 1, argsArray[1], argsArray[2], argsArray[3]);
+        Products product = new Products((getMaxId() + 1) + "", argsArray[1], argsArray[2], argsArray[3]);
         list.add(product);
         listToFile();
     }
