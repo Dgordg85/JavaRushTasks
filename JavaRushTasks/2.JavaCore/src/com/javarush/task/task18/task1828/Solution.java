@@ -56,7 +56,7 @@ public class Solution {
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileStream, "Windows-1251"));
         int countRN = 0;
         for (String str : list) {
-            writer.write(str);
+            writer.write(String.format("%-50s",str));
             if (++countRN < list.size()) writer.newLine();
         }
         writer.close();
