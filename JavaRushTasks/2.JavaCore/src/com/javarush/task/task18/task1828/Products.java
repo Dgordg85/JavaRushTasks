@@ -15,13 +15,6 @@ public class Products {
         this.quantity = Integer.parseInt(quantity.trim());
     }
 
-    public Products(int id, String productName, String price, String quantity) {
-        this.id = id;
-        this.productName = productName.trim();
-        this.price = Float.parseFloat(price.replace(",", ".").trim());
-        this.quantity = Integer.parseInt(quantity.trim());
-    }
-
     public void updateProduct(String productName, String price, String quantity){
         this.productName = productName.trim();
         this.price = Float.parseFloat(price.trim());
