@@ -40,7 +40,8 @@ public class Solution {
 
     private static List<Products> fileToList(String filename) throws IOException {
         FileInputStream fileStream = new FileInputStream(filename);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(fileStream, "Windows-1251"));
+        //BufferedReader reader = new BufferedReader(new InputStreamReader(fileStream, "Windows-1251"));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(fileStream));
         List<Products> list = new ArrayList<>();
 
         while (reader.ready()) {
@@ -52,7 +53,8 @@ public class Solution {
 
     private static void listToFile() throws IOException {
         FileOutputStream fileStream = new FileOutputStream(fileName);
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileStream, "Windows-1251"));
+        //BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileStream, "Windows-1251"));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileStream));
         int countRN = 0;
         for (Products product : list) {
             writer.write(product.getProductString());
