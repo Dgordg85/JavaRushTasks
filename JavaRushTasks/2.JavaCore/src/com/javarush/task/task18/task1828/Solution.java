@@ -5,13 +5,12 @@ package com.javarush.task.task18.task1828;
 */
 
 import java.io.*;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Solution {
-    private static List<String> list;
+    private static List<Products> list;
     private static String fileName;
     private static String[] argsArray;
     private static boolean validArgs;
@@ -33,19 +32,19 @@ public class Solution {
                 if (argsArray.length == 2) deleteString();
                 break;
             case "-c":
-                if (argsArray.length == 4) createString();
+                if (argsArray.length == 4) create();
                 break;
         }
         if (!validArgs) System.out.println("Ошибка аргументов");
     }
 
-    private static List<String> fileToList(String filename) throws IOException {
+    private static List<Products> fileToList(String filename) throws IOException {
         FileInputStream fileStream = new FileInputStream(filename);
         BufferedReader reader = new BufferedReader(new InputStreamReader(fileStream, "Windows-1251"));
-        List<String> list = new ArrayList<>();
+        List<Products> list = new ArrayList<>();
 
         while (reader.ready()) {
-            list.add(reader.readLine());
+            list.add(productFromLine(reader.readLine()));
         }
         reader.close();
         return list;
@@ -55,26 +54,34 @@ public class Solution {
         FileOutputStream fileStream = new FileOutputStream(fileName);
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileStream, "Windows-1251"));
         int countRN = 0;
-        for (String str : list) {
-            writer.write(String.format("%-50s",str));
+        for (Products product : list) {
+            writer.write(product.getProductString());
             if (++countRN < list.size()) writer.newLine();
         }
         writer.close();
     }
 
-    private static void createString() throws IOException {
+    private static Products productFromLine(String str){
+        String id = str.substring(0,8).trim();
+        String productName = str.substring(8, 38).trim();
+        String price = str.substring(38, 46).trim();
+        String quantity = str.substring(46);
+        Products product = new Products(id, productName, price, quantity);
+        return product;
+    }
+
+    private static void create() throws IOException {
         validArgs = true;
-        parsePrice();
-        list.add((getMaxListId() + 1) + concatArgs());
+        Products product = new Products(getMaxId() + 1, argsArray[1], argsArray[2], argsArray[3]);
+        list.add(product);
         listToFile();
     }
 
     private static void updateString() throws IOException {
         validArgs = true;
-        parsePrice();
-        int index = getStringIdInList();
+        int index = getIdInList();
         if (index != -1){
-            list.set(index, concatArgs());
+            list.get(index).updateProduct(argsArray[2], argsArray[3], argsArray[4]);
         } else {
             System.out.println("Невозможно обновить - такой элемент не найден!");
         }
@@ -83,7 +90,7 @@ public class Solution {
 
     private static void deleteString() throws IOException {
         validArgs = true;
-        int index = getStringIdInList();
+        int index = getIdInList();
         if (index != -1){
             list.remove(index);
         } else {
@@ -92,58 +99,24 @@ public class Solution {
         listToFile();
     }
 
-    private static String concatArgs() {
-        StringBuilder str = new StringBuilder();
-        int[] concatLength = {0, 8, 30, 8, 4};
-
-        if (argsArray[0].equals("-c")) {
-            int[] concatLengthC = {0, 30, 8, 4};
-            concatLength = concatLengthC;
-        }
-
-        for (int i = 1; i < argsArray.length; i++) {
-            str.append(String.format("%-" + concatLength[i] + "s", argsArray[i]));
-        }
-        return str.toString();
-    }
-
-    private static int getStringIdInList() {
+    private static int getIdInList() {
         int listId = -1;
-        for (String str : list) {
-            int  index = Integer.parseInt(argsArray[1].trim());
-            int  listIndex = Integer.parseInt(str.substring(0, 8).trim());
-            if (index == listIndex) {
-                listId = list.indexOf(str);
+        for (Products product : list) {
+            int  indexArg = Integer.parseInt(argsArray[1].trim());
+            int  indexListProduct = product.getId();
+            if (indexArg == indexListProduct) {
+                listId = list.indexOf(product);
                 break;
             }
         }
         return listId;
     }
 
-    private static int getMaxListId() {
-        int index, maxIndex = 0;
-        try {
-            for (String str : list) {
-                if ((index = Integer.parseInt(str.substring(0, 8).trim())) > maxIndex) maxIndex = index;
-            }
-        }catch (NumberFormatException e) {
-            System.out.println("Не верный формат файла!");
+    private static int getMaxId(){
+        int maxID = 0;
+        for (Products product : list){
+            if (product.getId() > maxID) maxID = product.getId();
         }
-        return maxIndex;
-    }
-
-    private static void parsePrice() {
-        String str = "";
-        int argIndex = 0;
-        if (argsArray[0].equals("-c")){
-            str = argsArray[2];
-            argIndex = 2;
-        } else if (argsArray[0].equals("-u")){
-            str = argsArray[3];
-            argIndex = 3;
-        }
-        str = String.format("%.2f", Float.parseFloat(str.trim()));
-        argsArray[argIndex] = str.replace(",", ".");
-
+        return maxID;
     }
 }
