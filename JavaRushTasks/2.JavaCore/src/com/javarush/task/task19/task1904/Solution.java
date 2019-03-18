@@ -34,9 +34,8 @@ public class Solution {
         public Person read() throws ParseException {
             Person person = null;
             if (fileScanner.hasNext()){
-                String str[] = fileScanner.nextLine().split(" ");
-                SimpleDateFormat pattern = new SimpleDateFormat("dd MM yyyy");
-                Date date = pattern.parse(String.format("%s %s %s", str[3], str[4], str[5]));
+                String str[] = fileScanner.nextLine().split(" ", 4);
+                Date date = new SimpleDateFormat("dd MM yyyy").parse(str[3]);
                 person = new Person(str[1], str[2], str[0], date);
             }
             return person;
