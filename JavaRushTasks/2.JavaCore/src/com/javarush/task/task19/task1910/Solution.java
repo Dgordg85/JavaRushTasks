@@ -17,7 +17,7 @@ public class Solution {
         reader.close();
 
         while(fileReader.ready()){
-            fileWriter.write(fileReader.readLine().replaceAll("[\\p{Punct}]*",""));
+            fileWriter.write(fileReader.readLine().replaceAll("[\\p{Punct}]+",""));
         }
         fileReader.close();
         fileWriter.close();
