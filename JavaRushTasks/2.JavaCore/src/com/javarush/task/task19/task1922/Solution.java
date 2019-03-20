@@ -24,7 +24,6 @@ public class Solution {
         reader.close();
 
         String str;
-
         while((str = stream.readLine()) != null){
             int count = 0;
             String[] strArr = str.split(" ");
