@@ -21,7 +21,7 @@ public class Solution {
         BufferedReader reader = new BufferedReader(new FileReader(args[0]));
 
 
-        Pattern pattern = Pattern.compile("^([а-яА-ЯёЁ\\-\\s]+) (\\d+ \\d+ \\d+)");
+        Pattern pattern = Pattern.compile("^(\\D+)\\s(\\d+\\s\\d+\\s\\d+)");
         SimpleDateFormat datePattern = new SimpleDateFormat("dd M yyyy");
 
         String str;
@@ -34,8 +34,8 @@ public class Solution {
 
         reader.close();
 
-//        for (Person person : PEOPLE){
-//            System.out.println(person.getName() + " " + person.getBirthDate());
-//        }
+        for (Person person : PEOPLE){
+            System.out.println(person.getName() + " " + person.getBirthDate());
+        }
     }
 }
