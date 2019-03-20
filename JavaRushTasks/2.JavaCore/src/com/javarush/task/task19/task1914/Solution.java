@@ -33,7 +33,7 @@ public class Solution {
     }
 
     private static void takeExpression(String str) {
-        Pattern pattern = Pattern.compile("^(\\d+)\\s*([+\\-*])\\s*(\\d+)\\s*=");
+        Pattern pattern = Pattern.compile("(\\d+)\\s*([+\\-*])\\s*(\\d+)\\s*=");
         Matcher matcher = pattern.matcher(str);
 
         while (matcher.find()) {
