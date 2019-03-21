@@ -4,10 +4,24 @@ package com.javarush.task.task19.task1927;
 Контекстная реклама
 */
 
+import java.io.*;
+
 public class Solution {
     public static TestString testString = new TestString();
 
     public static void main(String[] args) {
+        PrintStream defaultOut = System.out;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream stream = new PrintStream(outputStream);
+
+        System.setOut(stream);
+        testString.printSomething();
+        System.setOut(defaultOut);
+
+        byte[] inject = "JavaRush - курсы Java онлайн".getBytes();
+        byte[] enter = System.getProperty("line.separator").getBytes();
+
+        while (outputStream.)
     }
 
     public static class TestString {
@@ -19,4 +33,5 @@ public class Solution {
             System.out.println("fifth");
         }
     }
+
 }
