@@ -4,7 +4,6 @@ package com.javarush.task.task19.task1925;
 Длинные слова
 */
 
-import javax.print.attribute.standard.MediaSize;
 import java.io.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
