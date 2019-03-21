@@ -14,16 +14,14 @@ public class Solution {
         BufferedWriter writer = new BufferedWriter(new FileWriter(args[1]));
 
         String str;
-        StringBuilder strOut = new StringBuilder();
-        Pattern pattern = Pattern.compile("([\\wА-Яа-яЁё]*\\d+[\\wА-Яа-яЁ]*)");
+        Pattern pattern = Pattern.compile("\\S*\\d+\\S*");
         while ((str = reader.readLine()) != null){
             Matcher matcher = pattern.matcher(str);
-
             while(matcher.find()){
-                strOut.append(matcher.group(1) + " ");
+                writer.write(matcher.group() + " ");
             }
         }
-        writer.write(strOut.toString());
+
 
         reader.close();
         writer.close();
