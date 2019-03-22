@@ -10,7 +10,7 @@ import java.sql.SQLOutput;
 public class Solution {
     public static TestString testString = new TestString();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         PrintStream defaultOut = System.out;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream stream = new PrintStream(outputStream);
@@ -22,7 +22,7 @@ public class Solution {
         changeStreamAndConsoleIt(outputStream);
     }
 
-    private static void changeStreamAndConsoleIt(ByteArrayOutputStream outputStream) throws IOException {
+    private static void changeStreamAndConsoleIt(ByteArrayOutputStream outputStream) {
         String[] lines = outputStream.toString().split(System.getProperty("line.separator"));
         int countEnter = 0;
         for (String line : lines){
