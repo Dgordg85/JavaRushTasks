@@ -5,11 +5,12 @@ package com.javarush.task.task19.task1927;
 */
 
 import java.io.*;
+import java.sql.SQLOutput;
 
 public class Solution {
     public static TestString testString = new TestString();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         PrintStream defaultOut = System.out;
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream stream = new PrintStream(outputStream);
@@ -18,10 +19,18 @@ public class Solution {
         testString.printSomething();
         System.setOut(defaultOut);
 
-        byte[] inject = "JavaRush - курсы Java онлайн".getBytes();
-        byte[] enter = System.getProperty("line.separator").getBytes();
+        changeStreamAndConsoleIt(outputStream);
+    }
 
-        while (outputStream.)
+    private static void changeStreamAndConsoleIt(ByteArrayOutputStream outputStream) throws IOException {
+        String[] lines = outputStream.toString().split(System.getProperty("line.separator"));
+        int countEnter = 0;
+        for (String line : lines){
+            System.out.println(line);
+            if (++countEnter % 2 == 0){
+                System.out.println("JavaRush - курсы Java онлайн");
+            }
+        }
     }
 
     public static class TestString {
