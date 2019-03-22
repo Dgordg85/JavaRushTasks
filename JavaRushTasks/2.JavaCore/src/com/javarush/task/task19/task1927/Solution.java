@@ -5,7 +5,6 @@ package com.javarush.task.task19.task1927;
 */
 
 import java.io.*;
-import java.sql.SQLOutput;
 
 public class Solution {
     public static TestString testString = new TestString();
