@@ -10,44 +10,49 @@ import java.util.*;
 
 public class Solution {
 
+    private static StringBuilder sb = new StringBuilder();
+    private static String tag;
+
+
     public static void main(String[] args) throws IOException {
-        //BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        //BufferedReader stream = new BufferedReader(new FileReader(reader.readLine()));
-        BufferedReader stream = new BufferedReader(new FileReader("C:/1/1.txt"));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader stream = new BufferedReader(new FileReader(reader.readLine()));
+        reader.close();
+        tag = args[0];
 
         String str;
-        StringBuilder sb = new StringBuilder();
         while ((str = stream.readLine()) != null) {
             sb.append(str);
         }
+        stream.close();
 
-        Map<Integer, Boolean> map = tagsInList(args[0], sb.toString());
+        viewTags(tagsInList(tag, sb.toString()));
+    }
 
+    private static void viewTags(Map<Integer, Boolean> map){
         List<Integer> sortedKeys = new ArrayList(map.keySet());
         Collections.sort(sortedKeys);
 
-        int count = 0;
         for (int i = 0; i < sortedKeys.size(); i++) {
             int key = sortedKeys.get(i);
-            for (int j = i + 1; j < map.size(); j++) {
-                if (map.get(sortedKeys.get(j))){
-                    count++;
-                } else {
-                    count--;
-                }
 
-                if (count == 0){
-                    System.out.print(key + " " + sortedKeys.get(j));
-                    System.out.println(sb.substring(key, sortedKeys.get(j)));
-                    break;
-                }
+            if (map.get(key)){
+                int count = 1;
+                for (int j = i + 1; j < map.size(); j++) {
 
+                    if (map.get(sortedKeys.get(j))) count++;
+                    else count--;
+
+                    if (count == 0){
+                        System.out.println(sb.substring(key, sortedKeys.get(j) + tag.length() + 3));
+                        break;
+                    }
+                }
             }
-            System.out.println(key + " - " + map.get(key));
+
         }
 
     }
-
 
     private static Map<Integer, Boolean> tagsInList(String tag, String text){
         String openTag = "<" + tag;
