@@ -1,6 +1,7 @@
 package com.javarush.task.task20.task2001;
 
 import java.io.*;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +25,8 @@ public class Solution {
             somePerson.load(inputStream);
             inputStream.close();
             //check here that ivanov equals to somePerson - проверьте тут, что ivanov и somePerson равны
+            if (ivanov.equals(somePerson)) System.out.println("Равны");
+            else System.out.println("Не равны");
 
         } catch (IOException e) {
             //e.printStackTrace();
@@ -67,11 +70,29 @@ public class Solution {
         }
 
         public void save(OutputStream outputStream) throws Exception {
-            //implement this method - реализуйте этот метод
+            if (this.name != null) {
+                outputStream.write(this.name.getBytes());
+                outputStream.write(System.getProperty("line.separator").getBytes());
+                if (this.assets != null) {
+                    for (Asset asset : assets) {
+                        outputStream.write((asset.getName() + " " + asset.getPrice()).getBytes());
+                        outputStream.write(System.getProperty("line.separator").getBytes());
+                    }
+                }
+            }
         }
 
         public void load(InputStream inputStream) throws Exception {
-            //implement this method - реализуйте этот метод
+           BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+           String str;
+           if ((str = reader.readLine()) != null) this.name = str;
+
+           while (reader.ready()){
+               String[] assets = reader.readLine().split(" ");
+               this.assets.add(new Asset(assets[0], Double.parseDouble(assets[1])));
+           }
+
+           reader.close();
         }
     }
 }
