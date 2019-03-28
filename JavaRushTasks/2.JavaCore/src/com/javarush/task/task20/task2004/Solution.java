@@ -28,6 +28,11 @@ public class Solution {
 
             loadedObject.load(inputStream);
             //here check that the classWithStatic object is equal to the loadedObject object - проверьте тут, что classWithStatic и loadedObject равны
+            if (classWithStatic.equals(loadedObject) && (classWithStatic.hashCode() == loadedObject.hashCode())){
+                System.out.println("Равны");
+            } else {
+                System.out.println("Не равны");
+            }
 
             outputStream.close();
             inputStream.close();
@@ -47,11 +52,21 @@ public class Solution {
         public int j;
 
         public void save(OutputStream outputStream) throws Exception {
-            //implement this method - реализуйте этот метод
+            PrintWriter print = new PrintWriter(outputStream);
+            print.println(i);
+            print.println(j);
+            print.println(staticString);
+            print.flush();
         }
 
         public void load(InputStream inputStream) throws Exception {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
+            while (reader.ready()){
+                this.i = Integer.parseInt(reader.readLine());
+                this.j = Integer.parseInt(reader.readLine());
+                this.staticString = reader.readLine();
+            }
         }
 
         @Override
@@ -72,5 +87,7 @@ public class Solution {
             result = 31 * result + j;
             return result;
         }
+
+
     }
 }
