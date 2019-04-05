@@ -38,7 +38,7 @@ public class Solution {
 
         public void method2() {
             System.out.println("C class, method2");
-            super.method1();
+            //super.method1();
         }
     }
 }
