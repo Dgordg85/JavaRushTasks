@@ -40,15 +40,21 @@ public class Solution implements Serializable, AutoCloseable {
         sol.writeObject("Записываем данные");
         sol.writeObject("Дозапишем данные - у нас же метод flush а не close в writeObject");
 
-        ObjectOutputStream streamOut = new ObjectOutputStream(new FileOutputStream("C:/1/save.bin"));
+
+        String filePath = "C:/1/save.bin";
+        ObjectOutputStream streamOut = new ObjectOutputStream(new FileOutputStream(filePath));
         streamOut.writeObject(sol);
+        //закрываем поток вывода в файл
         sol.close();
+        //закрываем поток сериализации
         streamOut.close();
 
-        ObjectInputStream streamIn = new ObjectInputStream(new FileInputStream("C:/1/save.bin"));
+        ObjectInputStream streamIn = new ObjectInputStream(new FileInputStream(filePath));
         Solution sol2 = (Solution) streamIn.readObject();
         sol2.writeObject("Данные нового потока.");
+        //закрываем поток вывода в файл
         sol2.close();
+        //закрываем поток десериализации
         streamIn.close();
 
     }
