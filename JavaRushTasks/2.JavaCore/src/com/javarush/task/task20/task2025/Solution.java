@@ -1,5 +1,6 @@
 package com.javarush.task.task20.task2025;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /*
@@ -10,43 +11,69 @@ public class Solution {
     public static long[] getNumbers(long N) {
         long[] result = null;
 
-        for (int i = 1; i < N; i++) {
+        for (int i = 0; i < N; i++) {
             //if (i % 1000 == 0) System.out.println(i);
-
-            int[] array = getNum(i);
-            int count = array.length;
-            int resultNum = 0;
-            for (int j = 0; j < count; j++) {
-                resultNum += Math.pow(array[j],count);
-                if (resultNum > i) System.out.println("Шаг " + i + "");
+            if (isUnique(i)){
+                int num = sum(i);
+                if (isArmstrongNumber(num, i)) System.out.println(num + " " + i);
             }
-            System.out.println("Текущее число " + i + ", сумма его чисел равна " + resultNum);
-
-
-
         }
-
         return result;
     }
 
-    private static int[] getNum(int num){
+    private static boolean isArmstrongNumber(int number, int currentIter) {
+        if (sum(number) == number && number >= currentIter) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private static int[] getNumToArray(int num){
         String numStr = String.valueOf(num);
         int count = numStr.length();
         int[] array = new int[count];
         for (int i = 0; i < count; i++) {
-            array[i] = Integer.parseInt(numStr.substring(i, i + 1));
+            array[i] = num % 10;
+            num /= 10;
         }
        return array;
     }
 
+    private static boolean isUnique(int num){
+        int lastNum = 9;
+        int currentNum;
+        while (num > 0){
+            currentNum = num % 10;
+            if (currentNum != 0){
+                if (currentNum > lastNum) return false;
+                lastNum = currentNum;
+            }
+            num /= 10;
+        }
+        return true;
+    }
+
+    private static int sum(int num){
+        int resultNum = 0;
+        int[] array = getNumToArray(num);
+        int count = array.length;
+        for (int j = 0; j < count; j++) {
+            resultNum += Math.pow(array[j],count);
+        }
+        return resultNum;
+    }
+
 
     public static void main(String[] args) {
-        Date start = new Date();
-        getNumbers(100);
-        Date end = new Date();
+        long start = System.currentTimeMillis();
+        getNumbers(999999);
+        long end = System.currentTimeMillis() - start;
 
-        System.out.println((end.getTime() - start.getTime())/1000 + " сек");
-
+        long memory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        SimpleDateFormat pattern = new SimpleDateFormat("ss.SSS");
+        System.out.println("Время: " + pattern.format(new Date(end)));
+        System.out.println("Memory = " + memory / 1048576);
     }
 
 }
