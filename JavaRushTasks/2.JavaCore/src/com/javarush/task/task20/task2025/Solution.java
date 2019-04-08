@@ -1,79 +1,89 @@
 package com.javarush.task.task20.task2025;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 /*
 Алгоритмы-числа
 */
 public class Solution {
+    private static long[][] degree = new long[10][20];
+
+    static {
+        for (int i = 0; i < degree.length; i++) {
+            degree[0][i] = 0;
+        }
+        
+        for (int i = 0; i < degree.length; i++) {
+            degree[1][i] = 1;
+        }
+
+        for (int i = 2; i < degree.length; i++) {
+            for (int j = 1; j < degree[0].length; j++) {
+                degree[i][j] = i;
+                for (int k = 1; k < j; k++) {
+                    degree[i][j] *= i;
+                }
+            }
+        }
+    }
+
 
     public static long[] getNumbers(long N) {
-        long[] result = null;
-
-        for (int i = 0; i < N; i++) {
-            //if (i % 1000 == 0) System.out.println(i);
-            if (isUnique(i)){
-                int num = sum(i);
-                if (isArmstrongNumber(num, i)) System.out.println(num + " " + i);
+        long[] result = new long[100];
+        int j = 0;
+        for (long i = 0; i < N; i++) {
+            if (isNumUnique(i)){
+                if (isArmstrong(i)){
+                    result[j++] = i;
+                }
             }
+        }
+        Arrays.sort(result);
+        return result;
+    }
+
+    public static void main(String[] args) {
+        long start  = System.currentTimeMillis();
+        long[] result = getNumbers(99999999);
+        long end = System.currentTimeMillis() - start;
+        SimpleDateFormat pattern = new SimpleDateFormat("ss.SSS");
+        System.out.println("Время: " + pattern.format(new Date(end)));
+
+        for (int i = 0; i < result.length; i++) {
+            if (result[i] != 0) System.out.println(result[i]);
+        }
+    }
+
+    private static boolean isArmstrong(long number){
+        long sum = getNumberSum(number);
+        if (sum == number){
+            return true;
+        }
+        return false;
+    }
+
+    private static long getNumberSum(long number){
+        long result = 0;
+        int count = String.valueOf(number).length();
+        while(number > 0){
+            result += degree[(int)(number % 10)][count];
+            number /= 10;
         }
         return result;
     }
 
-    private static boolean isArmstrongNumber(int number, int currentIter) {
-        if (sum(number) == number && number >= currentIter) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private static int[] getNumToArray(int num){
-        String numStr = String.valueOf(num);
-        int count = numStr.length();
-        int[] array = new int[count];
-        for (int i = 0; i < count; i++) {
-            array[i] = num % 10;
-            num /= 10;
-        }
-       return array;
-    }
-
-    private static boolean isUnique(int num){
-        int lastNum = 9;
-        int currentNum;
-        while (num > 0){
-            currentNum = num % 10;
-            if (currentNum != 0){
-                if (currentNum > lastNum) return false;
-                lastNum = currentNum;
+    private static boolean isNumUnique(long num){
+        String str = String.valueOf(num);
+        int count = str.length();
+        if (count > 1){
+            for (int i = 1; i < count; i++) {
+                int firstSymbol = Integer.parseInt(str.substring(i - 1, i));
+                int secondSymbol = Integer.parseInt(str.substring(i, i + 1));
+                if (firstSymbol > secondSymbol) return false;
             }
-            num /= 10;
         }
         return true;
     }
-
-    private static int sum(int num){
-        int resultNum = 0;
-        int[] array = getNumToArray(num);
-        int count = array.length;
-        for (int j = 0; j < count; j++) {
-            resultNum += Math.pow(array[j],count);
-        }
-        return resultNum;
-    }
-
-
-    public static void main(String[] args) {
-        long start = System.currentTimeMillis();
-        getNumbers(999999);
-        long end = System.currentTimeMillis() - start;
-
-        long memory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-        SimpleDateFormat pattern = new SimpleDateFormat("ss.SSS");
-        System.out.println("Время: " + pattern.format(new Date(end)));
-        System.out.println("Memory = " + memory / 1048576);
-    }
-
 }
