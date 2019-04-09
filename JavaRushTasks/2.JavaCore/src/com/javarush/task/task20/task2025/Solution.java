@@ -8,7 +8,7 @@ import java.util.Date;
 Алгоритмы-числа
 */
 public class Solution {
-    private static long LONG_N = 100000000L;
+    private static long LONG_N = 1000;
     private static long[][] degree = new long[10][20];
 
     static {
@@ -42,62 +42,99 @@ public class Solution {
         SimpleDateFormat pattern = new SimpleDateFormat("ss.SSS");
         System.out.println("Время обработки чисел: " + pattern.format(new Date(end)));
 
-       /* for (int i = 0; i < result.length; i++) {
+        for (int i = 0; i < result.length; i++) {
             if (result[i] != 0) System.out.println(result[i]);
-        }*/
+        }
     }
 
     public static long[] getNumbers(long N) {
         long[] result = new long[100];
         int j = 0;
-        for (long i = 0L; i < N; i++) {
-            long num = getNumberSum(i, true);
-            if (num != -1 && num >= i){
-                if (isArmstrong(num)){
-                    boolean isNumberinArray = false;
-                    for (int k = 0; k < result.length; k++) {
-                        if (result[k] == num){
-                            isNumberinArray = true;
-                            break;
-                        }
+
+        long currentNumber = 1;
+        long sumCurrentNumber;
+        while (currentNumber <= N){
+            if (isArmstrong(sumCurrentNumber = getNumberSum(currentNumber))){
+                boolean isNumberInArray = false;
+                for (int k = 0; k < result.length; k++) {
+                    if (result[k] == sumCurrentNumber){
+                        isNumberInArray = true;
+                        break;
                     }
-                    if (!isNumberinArray) result[j++] = num;
                 }
+                if (!isNumberInArray) result[j++] = sumCurrentNumber;
             }
+            currentNumber = getNextNumber(currentNumber);
         }
         Arrays.sort(result);
         return result;
     }
 
+    private static long getNextNumber(long currentNumber){
+        if (currentNumber++ % 10 == 9){
+            long index = currentNumber % 10;
+            int countZero = 0;
+
+            while (index == 0) {
+                currentNumber /= 10;
+                index = currentNumber % 10;
+                countZero++;
+            }
+
+            StringBuffer sbNumber = new StringBuffer(Long.toString(currentNumber));
+
+            for (int i = 0; i < countZero; i++)
+                sbNumber.append(index);
+
+            try {
+                return Long.parseLong(sbNumber.toString());
+            } catch (NumberFormatException e) {
+                return Long.MAX_VALUE;
+            }
+
+        } else {
+            while (true){
+                if (!isValid(currentNumber)){
+                    currentNumber++;
+                } else {
+                    return currentNumber;
+                }
+            }
+        }
+    }
+
+    private static boolean isValid(long number){
+        int index = (int)(number % 10);
+        int previousIndex = 10;
+
+        while(number > 0){
+            if (index != 0) {
+                if (index > previousIndex) return false;
+                index = (int) (number % 10);
+            }
+            number /= 10;
+        }
+        return true;
+    }
+
     private static boolean isArmstrong(long number){
-        if (getNumberSum(number, false) == number){
+        long num = getNumberSum(number);
+        if (num == number && num != -1){
             return true;
         }
         return false;
     }
 
-    private static long getNumberSum(long number, boolean unique){
+    private static long getNumberSum(long number){
         long result = 0;
         int countDegree = String.valueOf(number).length();
 
         int index;
-        int previousIndex = 10;
+
         while (number > 0) {
             index = (int) (number % 10);
-            if (index == 0) {
-                number /= 10;
-                continue;
-            }
-
-            if (previousIndex >= index || !unique) {
-                result += degree[index][countDegree];
-                if (result > number) return -1; // +0.620
-                number /= 10;
-                previousIndex = index;
-            } else {
-                return -1;
-            }
-
+            result += degree[index][countDegree];
+            number /= 10;
         }
         return result;
     }
