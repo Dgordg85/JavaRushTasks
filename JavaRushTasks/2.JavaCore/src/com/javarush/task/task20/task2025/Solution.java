@@ -8,18 +8,23 @@ import java.util.Date;
 Алгоритмы-числа
 */
 public class Solution {
-    private static long[][] degree = new long[10][20];
+    private static int COUNT_BUFFER = 4;
+    private static int DEGREE_ARRAY_SIZE = (int) Math.pow(10, COUNT_BUFFER);
+    private static int LONG_N = 100000;
+    private static long[][] degree = new long[DEGREE_ARRAY_SIZE][20];
 
     static {
-        for (int i = 0; i < degree.length; i++) {
-            degree[0][i] = 0;
-        }
-        
-        for (int i = 0; i < degree.length; i++) {
-            degree[1][i] = 1;
+        long start  = System.currentTimeMillis();
+
+        for (int j = 0; j < degree[0].length; j++) {
+            degree[0][j] = 0;
         }
 
-        for (int i = 2; i < degree.length; i++) {
+        for (int j = 0; j < degree[0].length; j++) {
+            degree[1][j] = 1;
+        }
+
+        for (int i = 2; i < 10; i++) {
             for (int j = 1; j < degree[0].length; j++) {
                 degree[i][j] = i;
                 for (int k = 1; k < j; k++) {
@@ -27,63 +32,74 @@ public class Solution {
                 }
             }
         }
-    }
 
+        for (int i = 10; i < DEGREE_ARRAY_SIZE; i++) {
+            for (int j = 1; j < degree[0].length; j++) {
+                int result = 0;
+                int num = i;
 
-    public static long[] getNumbers(long N) {
-        long[] result = new long[100];
-        int j = 0;
-        for (long i = 0; i < N; i++) {
-            if (isNumUnique(i)){
-                if (isArmstrong(i)){
-                    result[j++] = i;
+                while (num > 0){
+                    result += degree[num % 10][j];
+                    num /= 10;
                 }
+                degree[i][j] = result;
             }
         }
-        Arrays.sort(result);
-        return result;
+
+        long end = System.currentTimeMillis() - start;
+        SimpleDateFormat pattern = new SimpleDateFormat("ss.SSS");
+        System.out.println("Время создания массива: " + pattern.format(new Date(end)));
     }
 
     public static void main(String[] args) {
         long start  = System.currentTimeMillis();
-        long[] result = getNumbers(99999999);
+        long[] result = getNumbers(LONG_N);
         long end = System.currentTimeMillis() - start;
         SimpleDateFormat pattern = new SimpleDateFormat("ss.SSS");
-        System.out.println("Время: " + pattern.format(new Date(end)));
+        System.out.println("Время обработки чисел: " + pattern.format(new Date(end)));
 
         for (int i = 0; i < result.length; i++) {
             if (result[i] != 0) System.out.println(result[i]);
         }
     }
 
+    public static long[] getNumbers(long N) {
+        long[] result = new long[100];
+        int j = 0;
+        for (long i = 0; i < N; i++) {
+            System.out.println(i);
+            if (isArmstrong(i)){
+                result[j++] = i;
+            }
+        }
+        Arrays.sort(result);
+        return result;
+    }
+
     private static boolean isArmstrong(long number){
-        long sum = getNumberSum(number);
-        if (sum == number){
+        if (getNumberSum(number) == number){
             return true;
         }
         return false;
     }
 
     private static long getNumberSum(long number){
+        int numSize = String.valueOf(number).length();
         long result = 0;
-        int count = String.valueOf(number).length();
+        int count = 0;
+        long currentIndex = 0;
         while(number > 0){
-            result += degree[(int)(number % 10)][count];
+            int index = (int)number % 10;
+            if (count == 0) currentIndex = index;
+            else currentIndex += index * Math.pow(10, count);
             number /= 10;
-        }
-        return result;
-    }
-
-    private static boolean isNumUnique(long num){
-        String str = String.valueOf(num);
-        int count = str.length();
-        if (count > 1){
-            for (int i = 1; i < count; i++) {
-                int firstSymbol = Integer.parseInt(str.substring(i - 1, i));
-                int secondSymbol = Integer.parseInt(str.substring(i, i + 1));
-                if (firstSymbol > secondSymbol) return false;
+            count++;
+            if (number == 0 || count == COUNT_BUFFER){
+                result += degree[(int)currentIndex][numSize];
+                currentIndex = 0;
+                count = 0;
             }
         }
-        return true;
+        return result;
     }
 }
