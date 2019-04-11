@@ -54,7 +54,7 @@ public class Solution {
 
     public static long[] getNumbers(long N) {
         ArrayList<Long> list = new ArrayList<>();
-        if (N > 0 && N <= Long.MAX_VALUE ){
+        if (N > 0){
             long currentNumber = 1;
             long sumCurrentNumber;
             while (currentNumber < N && currentNumber != -1){
