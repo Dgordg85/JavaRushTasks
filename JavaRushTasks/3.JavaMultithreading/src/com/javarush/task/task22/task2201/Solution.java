@@ -39,6 +39,6 @@ public class Solution {
            if (threadName == SECOND_THREAD_NAME) throw new StringForSecondThreadTooShortException();
            throw new RuntimeException();
         }
-        return
+        return string.substring(begin, end);
     }
 }
