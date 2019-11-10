@@ -4,12 +4,8 @@ package com.javarush.task.task04.task0443;
 /* 
 Как назвали, так назвали
 */
-
-import org.omg.PortableServer.ForwardRequest;
-import sun.font.FontRunIterator;
-
 import java.io.*;
-import java.sql.SQLOutput;
+
 
 public class Solution {
     public static void main(String[] args) throws Exception {

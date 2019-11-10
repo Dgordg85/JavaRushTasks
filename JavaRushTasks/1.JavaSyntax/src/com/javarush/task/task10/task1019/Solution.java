@@ -1,7 +1,5 @@
 package com.javarush.task.task10.task1019;
 
-import com.sun.org.apache.xpath.internal.functions.FuncFalse;
-
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;

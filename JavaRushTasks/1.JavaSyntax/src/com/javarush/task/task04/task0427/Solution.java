@@ -4,9 +4,6 @@ package com.javarush.task.task04.task0427;
 Описываем числа
 */
 
-import javafx.beans.binding.NumberBinding;
-
-import java.io.*;
 import java.util.Scanner;
 
 public class Solution {

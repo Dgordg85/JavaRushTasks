@@ -1,10 +1,5 @@
 package com.javarush.task.task06.task0606;
-
-import com.sun.corba.se.spi.orbutil.fsm.Input;
-
 import java.io.*;
-import java.sql.SQLOutput;
-import java.util.Scanner;
 
 /* 
 Чётные и нечётные циферки
