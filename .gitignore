@@ -2,3 +2,7 @@ GeekbrainsProject
 Java1-lesson01
 *.iml
 *.xml
+*.info
+*.properties
+*.log
+*.png
