@@ -32,6 +32,13 @@ public class Solution {
     }
 
     public synchronized String getPartOfString(String string, String threadName) {
-        return null;
+        int begin = string.indexOf("\t");
+        int end = string.lastIndexOf("\t");
+        if (string == null || begin == -1){
+           if (threadName == FIRST_THREAD_NAME) throw new StringForFirstThreadTooShortException();
+           if (threadName == SECOND_THREAD_NAME) throw new StringForSecondThreadTooShortException();
+           throw new RuntimeException();
+        }
+        return string.substring(begin, end);
     }
 }
